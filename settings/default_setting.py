@@ -10,7 +10,7 @@ CONCURRENT_ITEMS = 100 #  控制同时处理的爬取到的item的数据数目
 DOWNLOADER = "core.downloads.Downloader"
 # 默认下载器
 DOWNLOAD_HANDLER = "core.downloads.download_agent_proxy.HTTPDownloadHandler"
-DOWNLOAD_TIMEOUT = .180    # 3mins
+DOWNLOAD_TIMEOUT = 180    # 3mins
 
 DOWNLOAD_MAXSIZE = 1024*1024*1024   # 1024m 下载网页大小的最大值
 DOWNLOAD_WARNSIZE = 32*1024*1024    # 32m 下载网页大小的警戒值

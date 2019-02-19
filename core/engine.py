@@ -51,7 +51,8 @@ class Slot(object):
 
     def close(self,name):
         # logger.info("关闭 %s 的 slot！！"%name)
-        logger.info(*self.lfm.crawled("Engine",'Slot','关闭',name))
+
+        logger.info(*self.lfm.crawled("Spider",name,'Engine的Slot关闭'))
         self.closing = defer.Deferred()
         self._maybe_fire_closing(name)
         return self.closing
@@ -65,7 +66,7 @@ class Slot(object):
         if self.closing and not self.inprogress:
             if self.nextcall:
                 # logger.warning("%s 的LoopCall已关闭"%name)
-                logger.info(*self.lfm.crawled("Engine", 'Slot', 'LoopCall已关闭', name))
+                logger.info(*self.lfm.crawled("Spider",name,'Engine的Slot.LoopCall已关闭'))
                 self.nextcall.cancel()
                 if self.heartbeat.running:
                     self.heartbeat.stop()
@@ -417,12 +418,6 @@ class ExecutionEngine(object):
         dfd.addBoth(lambda _: slot.scheduler.close(reason))
         dfd.addErrback(log_failure,'Scheduler 关闭失败')
 
-        # dfd.addBoth(lambda _: logger.info("爬虫%(name)s已关闭：(%(reason)s)",
-        #             {
-        #                 'name' :spider.name,
-        #                 'reason': reason
-        #             },
-        #             extra={'spider': spider}))
         dfd.addBoth(lambda _:logger.warning(*self.lfm.crawled("Spider", spider.name,
                                        '关闭时间:',
                                         {

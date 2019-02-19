@@ -3,8 +3,8 @@ import conf,copy
 from importlib import import_module
 from settings import default_setting
 import logging
+
 logger = logging.getLogger(__name__)
-#logging.basicConfig(level=logging.DEBUG,format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s')
 
 SETTINGG_PRIORITIES = {
     'default': 0,
@@ -12,6 +12,7 @@ SETTINGG_PRIORITIES = {
     'project': 20,
     'spider': 30,
     'cmdline': 40,
+    'userconfig':50
 }
 
 
@@ -177,9 +178,6 @@ class BaseSettings(object):
     def set(self, name, value, priority="project"):
         """
         给 key/value 设定一个给定的优先级值
-
-
-
         :param name: 设置名
         :type name: string
 
@@ -232,13 +230,17 @@ class BaseSettings(object):
         return copy.deepcopy(self)
 
 
-
 class Setting(BaseSettings):
     """导入默认的设置文件"""
-    def __init__(self,values=None,priority="project"):
+    def __init__(self,values=None,users_config=None,priority="project"):
         super(Setting,self).__init__()
         """将默认的配置导入进来"""
         self.setmodule(default_setting, 'default')
+        if users_config:
+            try:
+                self.setmodule(users_config,'userconfig')
+            except Exception:
+                raise ImportError('自定义配置文件导入错误')
         for name,val in self:
             if isinstance(val,dict):
                 self.set(name,BaseSettings(values,"default"),'default')

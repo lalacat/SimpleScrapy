@@ -159,8 +159,8 @@ class Scraper(object):
         #  如果结果没有出错的时候，先进行中间件的处理，然后执行在request中或者是spider中定义的callback或者是_parse来处理结果
         #  结果处理完后执行自定义的规则，将结果进行制定规则的输出
         dfd = self._scrape2(response, request, spider)  # returns spiders processed output
-        dfd.addErrback(self.handle_spider_error, request,response, spider)
         dfd.addCallback(self.handle_spider_output, request, response, spider)
+        dfd.addErrback(self.handle_spider_error, request,response, spider)
         return dfd
 
     def _scrape2(self, response_failure, request, spider):

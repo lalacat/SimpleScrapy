@@ -86,3 +86,7 @@ class HouseInfoDB(object):
         elif exist.count() == 0:
             return 'insert'
 
+import zipfile
+
+
+z = zipfile

@@ -44,6 +44,8 @@ class HTTPDownloadHandler(object):
         self._default_warnsize = self.settings.getint('DOWNLOAD_WARNSIZE')
         self._fail_on_dataloss = self.settings.getbool('DOWNLOAD_FAIL_ON_DATALOSS')
         self._default_download_timeout = self.settings.getint('DOWNLOAD_TIMEOUT')
+        if self._default_download_timeout == 0:
+            raise ValueError('下载最大超时时间不能为0')
         self._disconnect_timeout = 1
 
     @classmethod

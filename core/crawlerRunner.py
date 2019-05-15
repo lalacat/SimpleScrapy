@@ -403,8 +403,3 @@ def make_generator(tasks):
             yield it.__next__()
         except StopIteration:
             break
-
-
-
-# a = {'1','2','3'}
-# logger.error('列表%s' %a)
